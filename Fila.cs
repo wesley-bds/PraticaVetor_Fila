@@ -1,92 +1,103 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PraticaVetor_Fila
 {
-    // classe Fila, que gerencia os clientes
     class Fila
     {
-        private Cliente[] fila = new Cliente[10]; // Vetor que representa a fila com no máximo 10 posições
-        private int fim = 0; // Controla a posição do último cliente na fila
+        private Cliente[] fila = new Cliente[10]; // Vetor para armazenar até 10 clientes
+
+        private int fim = 0; // Controlar o número de clientes na fila
 
 
-        // Adiciona um cliente à fila
+        // Adiciona um novo cliente à fila
         public void AdicionarCliente(Cliente cliente)
         {
             if (fim >= 10)
             {
-                Console.WriteLine("Fila cheia!"); // Verifica se há espaço
-                return;
-            }
-
-            if (cliente.Prioritario)
-            {
-                // Encontra a posição onde o novo prioritário deve ser inserido
-                int pos = 0;
-                while (pos < fim && fila[pos].Prioritario)
-                {
-                    pos++; // Avança até o primeiro cliente não prioritario
-                }
-
-                // Move os clientes para abrir espaço para o novo prioritario
-                for (int i = fim; i > pos; i--)
-                {
-                    fila[i] = fila[i - 1]; // Empurra o cliente uma posição para frente
-                }
-
-                // Insere o cliente prioritario na posição correta
-                fila[pos] = cliente;
-                Console.WriteLine("Cliente prioritário cadastrado com sucesso!");
+                Console.WriteLine("A fila está cheia!");
             }
             else
             {
-                // Adiciona o cliente comum no final da fila
                 fila[fim] = cliente;
+                fim++;
                 Console.WriteLine("Cliente cadastrado com sucesso!");
             }
-
-            fim++; // Atualiza a posição do final da fila
         }
 
-        // Lista todos os clientes na fila
         public void ListarFila()
         {
             if (fim == 0)
             {
-                Console.WriteLine("Fila vazia."); // Verifica se ha clientes
+                Console.WriteLine("A fila está vazia.");
                 return;
             }
 
-            Console.WriteLine("\nFila de clientes:");
-            for (int i = 0; i < fim; i++) // Garantir que exibira os clinetes cadastrados
+            Console.WriteLine("Lista de clientes na fila:");
+
+            // Primeiro mostra os prioritários na ordem de chegada
+            for (int i = 0; i < fim; i++)
             {
-                Console.WriteLine($"{i + 1} - {fila[i]}"); // Exibe cada cliente com numeraçao
+                if (fila[i].Prioritario)
+                {
+                    Console.Write((i + 1) + " - ");
+                    fila[i].ExibirDados();
+                }
+            }
+
+            // Depois mostra os não prioritários na ordem de chegada
+            for (int i = 0; i < fim; i++)
+            {
+                if (!fila[i].Prioritario)
+                {
+                    Console.Write((i + 1) + " - ");
+                    fila[i].ExibirDados();
+                }
             }
         }
 
-        // Atende (remove) o primeiro cliente da fila
+        // Atende o primeiro cliente prioritário. Se não houver, atende o primeiro da fila
         public void AtenderCliente()
         {
             if (fim == 0)
             {
-                Console.WriteLine("Fila vazia."); // Se a fila estiver vazia, avisa
+                Console.WriteLine("A fila está vazia.");
                 return;
             }
 
-            Console.WriteLine($"ATENDENDO CLIENTE: {fila[0]}"); // Mostra o cliente sendo atendido
+            int Prioritario = -1;
 
-            // Move os demais clientes uma posição à frente
-            for (int i = 0; i < fim - 1; i++)
+            // Procura o primeiro cliente prioritário
+
+            for (int i = 0; i < fim; i++)
+            {
+                if (fila[i].Prioritario)
+                {
+                    Prioritario = i;
+                    break;
+                }
+            }
+
+            // Define quem será atendido
+            int atender = 0;
+            if (Prioritario != -1)
+            {
+                atender = Prioritario;
+            }
+
+            // Exibe os dados do cliente atendido
+            Console.WriteLine("ATENDENDO CLIENTE:");
+            fila[atender].ExibirDados();
+
+            // Remove o cliente atendido da fila, deslocando os outros
+            for (int i = atender; i < fim - 1; i++)
             {
                 fila[i] = fila[i + 1];
             }
 
-            fila[fim - 1] = null; // Remove referencia ao ultimo cliente
+            fila[fim - 1] = null;
 
-            fim--; // Diminui o tamanho da fila
+            fim--;
         }
     }
 }

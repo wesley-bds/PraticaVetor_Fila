@@ -1,69 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PraticaVetor_Fila
 {
-    
+
     class Program
     {
         static void Main(string[] args)
         {
-            Fila fila = new Fila(); // Cria a fila
+            Fila fila = new Fila(); // Criando uma nova fila
+            string opcao = ""; // Variavel para armazenar a opção do usuário
 
-            string opcao = ""; // Variável para armazenar a opção do usuário
-
-            while (true) // Laço principal do menu
+            //Loop do menu
+            while (opcao.ToLower() != "q") //o ToLower para reconher tanto maiúsculas quanto minúsculas
             {
-                // Exibe o menu de opções
                 Console.WriteLine("\nMENU:");
                 Console.WriteLine("1 - Cadastrar cliente");
                 Console.WriteLine("2 - Listar fila");
                 Console.WriteLine("3 - Atender cliente");
-                Console.WriteLine("q - SAIR");
+                Console.WriteLine("Q - Sair");
                 Console.Write("Escolha uma opção: ");
-                opcao = Console.ReadLine().Trim(); // Lê e limpa a entrada do usuário
+                opcao = Console.ReadLine();
 
-                // Verifica se o usuário quer sair (q ou Q)
-                if (opcao.Equals("q", StringComparison.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine("Saindo...");
-                    break; // Encerra o loop
-                }
-
-                // Verifica qual ação executar
+                // Verifica a opção escolhida
                 if (opcao == "1")
                 {
-                    // Criação e preenchimento do cliente
                     Cliente cliente = new Cliente();
 
-                    Console.Write("Digite o nome completo do cliente: ");
+                    Console.Write("Nome: ");
                     cliente.Nome = Console.ReadLine();
 
-                    Console.Write("Digite o CPF do cliente: ");
+                    Console.Write("CPF: ");
                     cliente.CPF = Console.ReadLine();
 
-                    Console.Write("Digite a data de nascimento do cliente (dd/mm/aaaa): ");
+                    Console.Write("Data de nascimento: ");
                     cliente.DataNascimento = Console.ReadLine();
 
-                    Console.Write("O cliente é prioritário? (s/n): ");
-                    cliente.Prioritario = Console.ReadLine().Trim().ToLower() == "s";
+                    Console.Write("É prioritário? (s/n): ");
+                    string resp = Console.ReadLine();
+                    if (resp.ToLower() == "s")
+                    {
+                        cliente.Prioritario = true;
+                    }
+                    else
+                    {
+                        cliente.Prioritario = false;
+                    }
 
-                    fila.AdicionarCliente(cliente); // Adiciona cliente na fila
+                    fila.AdicionarCliente(cliente);
                 }
                 else if (opcao == "2")
                 {
-                    fila.ListarFila(); // Lista os clientes na fila
+                    fila.ListarFila();
                 }
                 else if (opcao == "3")
                 {
-                    fila.AtenderCliente(); // Atende (remove) o primeiro cliente
+                    fila.AtenderCliente();
+                }
+                else if (opcao.ToLower() == "q") 
+                {
+                    Console.WriteLine("Encerrando o programa...");
                 }
                 else
                 {
-                    Console.WriteLine("Opção inválida."); // Se a opção for desconhecida
+                    Console.WriteLine("Opção inválida.");
                 }
             }
         }
