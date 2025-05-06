@@ -45,10 +45,7 @@ namespace PraticaVetor_Fila
                     Console.Write((i + 1) + " - ");
                     fila[i].ExibirDados();
                 }
-                {
-                    Console.Write((i + 1) + " - ");
-                    fila[i].ExibirDados();
-                }
+   
             }
 
             // Depois mostra os não prioritários na ordem de chegada
