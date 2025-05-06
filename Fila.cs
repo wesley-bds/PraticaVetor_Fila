@@ -7,27 +7,29 @@ namespace PraticaVetor_Fila
     {
         private Cliente[] fila = new Cliente[10]; // Vetor para armazenar até 10 clientes
 
-        private int fim = 0; // Controlar o número de clientes na fila
+        private int fim = 0; // Variavel fim, controlar o número de clientes na fila
 
 
-        // Adiciona um novo cliente à fila
-        public void AdicionarCliente(Cliente cliente)
+        
+        public void AdicionarCliente(Cliente cliente)  // Metodo adicionar cliente, adc novo cliente na fila 
         {
-            if (fim >= 10)
+            if (fim >= 10) // condição para verificar se a fila está cheia
             {
                 Console.WriteLine("A fila está cheia!");
             }
             else
             {
-                fila[fim] = cliente;
-                fim++;
+                fila[fim] = cliente; // adc cliente novo no fim do vetor
+
+                fim++; // Incrementa o número de clientes na fila
+
                 Console.WriteLine("Cliente cadastrado com sucesso!");
             }
         }
 
-        public void ListarFila()
+        public void ListarFila() // Metodo listar fila, exibe todos os clientes na fila
         {
-            if (fim == 0)
+            if (fim == 0) // cond que ver se a fila esta vazia
             {
                 Console.WriteLine("A fila está vazia.");
                 return;
@@ -35,10 +37,14 @@ namespace PraticaVetor_Fila
 
             Console.WriteLine("Lista de clientes na fila:");
 
-            // Primeiro mostra os prioritários na ordem de chegada
-            for (int i = 0; i < fim; i++)
+            
+            for (int i = 0; i < fim; i++) // for ver quem é o prioritario
             {
-                if (fila[i].Prioritario)
+                if (fila[i].Prioritario) 
+                {
+                    Console.Write((i + 1) + " - ");
+                    fila[i].ExibirDados();
+                }
                 {
                     Console.Write((i + 1) + " - ");
                     fila[i].ExibirDados();
@@ -48,7 +54,7 @@ namespace PraticaVetor_Fila
             // Depois mostra os não prioritários na ordem de chegada
             for (int i = 0; i < fim; i++)
             {
-                if (!fila[i].Prioritario)
+                if (!fila[i].Prioritario) // A diferença que tem o operador de negação (!) inrverte o valor bool
                 {
                     Console.Write((i + 1) + " - ");
                     fila[i].ExibirDados();
@@ -56,8 +62,8 @@ namespace PraticaVetor_Fila
             }
         }
 
-        // Atende o primeiro cliente prioritário. Se não houver, atende o primeiro da fila
-        public void AtenderCliente()
+       
+        public void AtenderCliente()  // Metodo atender, Atende o primeiro cliente prioritário. Se não houver, atende o primeiro da fila
         {
             if (fim == 0)
             {
@@ -74,7 +80,7 @@ namespace PraticaVetor_Fila
                 if (fila[i].Prioritario)
                 {
                     Prioritario = i;
-                    break;
+                    break; // quando encontra sai do laço
                 }
             }
 
@@ -89,7 +95,7 @@ namespace PraticaVetor_Fila
             Console.WriteLine("ATENDENDO CLIENTE:");
             fila[atender].ExibirDados();
 
-            // Remove o cliente atendido da fila, deslocando os outros
+            // Remove o cliente, deslocando os outros
             for (int i = atender; i < fim - 1; i++)
             {
                 fila[i] = fila[i + 1];
